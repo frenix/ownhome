@@ -1,0 +1,9 @@
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\bin\Debug\RestWebService.exe.config
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\bin\Debug\RestWebService.exe
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\bin\Debug\RestWebService.pdb
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\obj\Debug\RestWebService.csprojResolveAssemblyReference.cache
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\obj\Debug\RestWebService.exe
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\obj\Debug\RestWebService.pdb
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\bin\Debug\Nancy.dll
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\bin\Debug\Nancy.Hosting.Self.dll
+C:\Users\durane\Documents\SharpDevelop Projects\RestWebService\RestWebService\bin\Debug\System.Data.SQLite.dll
