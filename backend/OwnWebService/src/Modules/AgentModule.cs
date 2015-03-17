@@ -51,7 +51,7 @@ namespace OHWebService.Modules
 		// GET /Agent/root/pass
 		private object IsValidUser(AgentModel agent) 
 		{
-			if ( agent.UserName == "root" && agent.Password == "pass") 
+			if ( agent.EmailAdd == "root@ownhome.com" && agent.Password == "pass") 
 			{
 			    return "true";
 			} 
@@ -76,9 +76,9 @@ namespace OHWebService.Modules
 				profile = this.Bind<AgentModel>();
 
 				// check exists. Return 409 if it does
-				if (!(profile.UserName == "root" && profile.Password == "rootpass"))
+				if (!(profile.EmailAdd == "root" && profile.Password == "rootpass"))
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.Conflict, String.Format("Use PUT to update an existing User with Id = {0}", profile.UserName));
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.Conflict, String.Format("Use PUT to update an existing User with Id = {0}", profile.EmailAdd));
 				}
 
 				//just return OK
@@ -86,7 +86,7 @@ namespace OHWebService.Modules
 				Nancy.Response response = new Nancy.Responses.JsonResponse<AgentModel>(profile, new DefaultJsonSerializer());
 				response.StatusCode = HttpStatusCode.Created;
 				// uri
-				string uri = this.Request.Url.SiteBase + this.Request.Path + "/" + profile.UserName;
+				string uri = this.Request.Url.SiteBase + this.Request.Path + "/" + profile.EmailAdd;
 				response.Headers["Location"] = uri;
 
 				return response;
@@ -94,7 +94,7 @@ namespace OHWebService.Modules
 			catch (Exception e)
 			{
 				Console.WriteLine(rawBody);
-				String operation = String.Format("BadgesModule.AddBadge({0})", (profile == null) ? "No Model Data" : profile.UserName);
+				String operation = String.Format("BadgesModule.AddBadge({0})", (profile == null) ? "No Model Data" : profile.EmailAdd);
 				return HandleException(e, operation);
 			}	
 			

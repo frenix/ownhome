@@ -15,7 +15,10 @@ namespace OHWebService.Models
     /// </summary>
     public class AgentModel
     {
-        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string EmailAdd { get; set; }
 		public string Password { get; set; }
+		public string AuthKey { get; set; }
     }
 }
