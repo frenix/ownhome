@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace OHWebService
+namespace OHWebService.Modules
 {
 	/// <summary>
 	/// Description of PropertyModule.

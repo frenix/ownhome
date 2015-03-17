@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RestWebService</RootNamespace>
+    <RootNamespace>OHWebService</RootNamespace>
     <AssemblyName>OHWebService</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -59,25 +59,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Modules\HomeModule.cs">
-      <Link>HomeModule.cs</Link>
-    </Compile>
-    <Compile Include="Modules\PetaPoco.cs">
-      <Link>PetaPoco.cs</Link>
-    </Compile>
-    <Compile Include="Modules\Program.cs">
-      <Link>Program.cs</Link>
-    </Compile>
-    <Compile Include="Modules\PropertyModule.cs">
-      <Link>PropertyModule.cs</Link>
-    </Compile>
-    <Compile Include="Modules\UserModule.cs">
-      <Link>UserModule.cs</Link>
-    </Compile>
+    <Compile Include="Models\AgentModel.cs" />
+    <Compile Include="Modules\AgentModule.cs" />
+    <Compile Include="Modules\ErrorBuilder.cs" />
+    <Compile Include="Modules\HomeModule.cs" />
+    <Compile Include="Modules\PetaPoco.cs" />
+    <Compile Include="Modules\PropertyModule.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules" />
+    <Folder Include="Models" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

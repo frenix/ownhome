@@ -14,7 +14,7 @@ using Nancy;
 using Nancy.ModelBinding;  // for JSON magic
 using Nancy.Responses;
 
-namespace OHWebService
+namespace OHWebService.Modules
 {
 	/// <summary>
 	/// Description of HomeModule.
@@ -28,15 +28,11 @@ namespace OHWebService
 				";
 		public HomeModule()
 		{
-			// http://localhost:8080/
-//            Get["/"] = parameter =>
-//            {
-//				return IndexPage;
-//            };
 		 Get[@"/"] = parameters =>
 		    {
 		        //return Response.AsFile("index.html", "text/html");
-		        return View["index"];
+		        //return View["index"];
+		        return IndexPage;
 		    };
 				    
 		}

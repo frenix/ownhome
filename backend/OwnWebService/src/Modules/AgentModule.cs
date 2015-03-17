@@ -1,8 +1,9 @@
 ﻿/*
- * Created by SharpDevelop.
- * User: durane
- * Date: 2/18/2015
- * Time: 11:36 AM
+ * Created by Fuego, Inc. 
+ * File  :   Agent.cs
+ * Author:    Efren Duran
+ * Date: 3/17/2015
+ * Time: 10:56 AM
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
@@ -15,47 +16,42 @@ using System.IO;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
+using OHWebService.Models;
 
-namespace OHWebService
+namespace OHWebService.Modules
 {
 	/// <summary>
-	/// The root for this service is http://localhost:<port></port>/Users
+	/// The root for this service is http://<ip></ip>:<port></port>/Agent
 	/// </summary>
-	public class UserModule : Nancy.NancyModule
+	public class AgentModule : Nancy.NancyModule
 	{
-				const String UserPage = @"
-<html><body>
-<h1>User Page </h1>
-</body></html>
-";
-		public UserModule() : base("/User")
+	    const String AgentPage = @"
+                                <html><body>
+                                <h1>Agent Page </h1>
+                                </body></html>
+                                ";
+	    
+		public AgentModule() : base("/Agent")
 		{
-			// http://localhost:xxxx/Users
-			Get["/"] = parameter => { return UserPage; };
-
-//			// http://localhost:xxxx/Users/99
+		    // /Agent
+			Get["/"] = parameter => { return AgentPage; };
+			
+			// /Agent/99
 			Get["/{Username}/{Password}"] = parameter => 
 			{ 
-				var profile = this.Bind<UserModel>();
+				var profile = this.Bind<AgentModel>();
 				
 				return IsValidUser(profile);
 			};
-
-			// http://localhost:xxx/Users       POST: Badge JSON in body
-			Post["/"] = parameter => { return this.AddUser(); };
-//
-			// http://localhost:8088/Badges/99    PUT: Badge JSON in body
-//			Put["/{id}"] = parameter => { return this.UpdateBadge(parameter.id); };
-//
-//			// http://localhost:8088/Badges/99    DELETE:  
-//			Delete["/{id}"] = parameter => { return this.DeleteBadge(parameter.id); };
+			
+			// /Agent       POST: Agent JSON in body
+			Post["/"] = parameter => { return this.AddAgent(); };
 		}
 		
-		
-		// GET /User/root/pass
-		private object IsValidUser(UserModel p) 
+		// GET /Agent/root/pass
+		private object IsValidUser(AgentModel agent) 
 		{
-			if (p.UserName == "root" && p.Password == "pass") 
+			if ( agent.UserName == "root" && agent.Password == "pass") 
 			{
 			    return "true";
 			} 
@@ -65,19 +61,19 @@ namespace OHWebService
 			}
 		}
 		
-		// POST /User
-		Nancy.Response AddUser() 
+		// POST /Agent
+		Nancy.Response AddAgent() 
 		{
 						// debug code only
 			// capture actual string posted in case the bind fails (as it will if the JSON is bad)
 			// need to do it now as the bind operation will remove the data
 			String rawBody = this.GetBodyRaw(); 
 
-			UserModel profile = null;
+			AgentModel profile = null;
 			try
 			{
 				// bind the request body to the object via a Nancy module.
-				profile = this.Bind<UserModel>();
+				profile = this.Bind<AgentModel>();
 
 				// check exists. Return 409 if it does
 				if (!(profile.UserName == "root" && profile.Password == "rootpass"))
@@ -87,7 +83,7 @@ namespace OHWebService
 
 				//just return OK
 				// 201 - created
-				Nancy.Response response = new Nancy.Responses.JsonResponse<UserModel>(profile, new DefaultJsonSerializer());
+				Nancy.Response response = new Nancy.Responses.JsonResponse<AgentModel>(profile, new DefaultJsonSerializer());
 				response.StatusCode = HttpStatusCode.Created;
 				// uri
 				string uri = this.Request.Url.SiteBase + this.Request.Path + "/" + profile.UserName;
@@ -103,6 +99,9 @@ namespace OHWebService
 			}	
 			
 		}
+		
+		
+		//TO DO: Check if this can be common
 		
 		Nancy.Response HandleException(Exception e, String operation)
 		{
@@ -124,5 +123,8 @@ namespace OHWebService
 			String bodyData = encoding.GetString(b);
 			return bodyData;
 		}
-	}
+		
+		
+		
+	} //end Class: Agent
 }
