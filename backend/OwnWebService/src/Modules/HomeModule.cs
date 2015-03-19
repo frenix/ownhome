@@ -23,7 +23,7 @@ namespace OHWebService.Modules
 	{
 		const String IndexPage = @"
 				<html><body>
-				<h1>Yep. The server is running</h1>
+				<h1>PropertyFinder service is running</h1>
 				</body></html>
 				";
 		public HomeModule()

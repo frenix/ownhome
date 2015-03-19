@@ -11,14 +11,25 @@ using System;
 namespace OHWebService.Models
 {
     /// <summary>
-    /// Description of AgentModel.
+    /// Class that defines Agent and map it to db
     /// </summary>
-    public class AgentModel
+    
+    [PetaPoco.TableName("property_agent")]
+	[PetaPoco.PrimaryKey("AgentId")]
+    public partial class AgentModel
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EmailAdd { get; set; }
-		public string Password { get; set; }
-		public string AuthKey { get; set; }
+        [PetaPoco.Column("AgentId")]
+		public Int64 AgentId { get; set; }
+		[PetaPoco.Column("FirstName")]
+		public String FirstName { get; set; }
+		[PetaPoco.Column("LastName")]
+		public String LastName { get; set; }
+		[PetaPoco.Column("EmailAddress")]
+		public String EmailAddress { get; set; }
+		[PetaPoco.Column("Password")]
+		public String Password { get; set; }
+		[PetaPoco.Column("AuthKey")]
+		public String AuthKey { get; set; }
     }
+
 }
