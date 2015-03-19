@@ -45,7 +45,7 @@ namespace OHWebService.Modules
 			};
 			
 			// /Agent/johndoe
-			Get["/{Username}"] = parameter => { return GetByUserName(parameter.Username); };			
+			Get["/{id}"] = parameter => { return GetById(parameter.id); };			
 			
 			// /Agent       POST: Agent JSON in body
 			Post["/"] = parameter => { return this.AddAgent(); };
@@ -57,7 +57,7 @@ namespace OHWebService.Modules
 		// -- IMPLEMENTATION PART --
 		
 		// GET /Badges/99
-		private object GetByUserName(String Username)
+		private object GetById(int id)
 		{
 			try
 			{
