@@ -30,8 +30,8 @@ namespace OHWebService.Modules
                                 <h1>Agent Page </h1>
                                 </body></html>
                                 ";
-	    
-		public AgentModule() : base("/Agent")
+	    	    
+		public AgentModule() : base("/Agents")
 		{
 		    // /Agent
 		    Get["/"] = parameter => { return GetAll(); };
@@ -44,8 +44,11 @@ namespace OHWebService.Modules
 				return IsValidUser(profile);
 			};
 			
-			// /Agent/johndoe
+			// /Agent/99
 			Get["/{id}"] = parameter => { return GetById(parameter.id); };			
+			
+			// /Agent/root@ownhome.com
+			Get["/{emailadd}"] = parameter => { return GetByEmailAdd(parameter.emailadd); };	
 			
 			// /Agent       POST: Agent JSON in body
 			Post["/"] = parameter => { return this.AddAgent(); };
@@ -56,7 +59,7 @@ namespace OHWebService.Modules
 		
 		// -- IMPLEMENTATION PART --
 		
-		// GET /Badges/99
+		// GET /Agents/99
 		private object GetById(int id)
 		{
 			try
@@ -78,7 +81,34 @@ namespace OHWebService.Modules
 			// Please, please handle exceptions in a way that provides information about the context of the error.
 			catch (Exception e)
 			{
-				return HandleException(e, String.Format("AgentModule.GetById({0})", id));
+				return CommonModule.HandleException(e, String.Format("AgentModule.GetById({0})", id), this.Request);
+			}
+		}
+		
+		// GET /Agents/root@ownhome.com
+		// DOESNT WORK!!!! email as param
+		private object GetByEmailAdd(string emailadd)
+		{
+			try
+			{
+				// create a connection to the PetaPoco orm and try to fetch and object with the given Id
+				AgentContext ctx = new AgentContext();
+				AgentModel res = ctx.GetByEmailAdd(emailadd);
+				if (res == null)   // a null return means no object found
+				{
+					// return a reponse conforming to REST conventions: a 404 error
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "GET", HttpStatusCode.NotFound, String.Format("Agent with email = {0} does not exist", emailadd));
+				}
+				else
+				{
+					// success. The Nancy server will automatically serialise this to JSON
+					return res;
+				}
+			}
+			// Please, please handle exceptions in a way that provides information about the context of the error.
+			catch (Exception e)
+			{
+				return CommonModule.HandleException(e, String.Format("AgentModule.GetByEmailAdd({0})", emailadd), this.Request);
 			}
 		}
 		
@@ -96,7 +126,7 @@ namespace OHWebService.Modules
 			}
 			catch (Exception e)
 			{
-				return HandleException(e, String.Format("AgentModule.GetAll()"));
+				return CommonModule.HandleException(e, String.Format("AgentModule.GetAll()"), this.Request);
 			}
 		}
 		
@@ -119,8 +149,9 @@ namespace OHWebService.Modules
 						// debug code only
 			// capture actual string posted in case the bind fails (as it will if the JSON is bad)
 			// need to do it now as the bind operation will remove the data
-			String rawBody = this.GetBodyRaw(); 
-
+			//String rawBody = this.GetBodyRaw(); 
+			String rawBody = CommonModule.GetBodyRaw(this.Request);
+			
 			AgentModel profile = null;
 			try
 			{
@@ -150,7 +181,7 @@ namespace OHWebService.Modules
 			{
 				Console.WriteLine(rawBody);
 				String operation = String.Format("AgentModule.AddAgent({0})", (profile == null) ? "No Model Data" : profile.EmailAddress);
-				return HandleException(e, operation);
+				return CommonModule.HandleException(e, operation, this.Request);
 			}	
 			
 		}
@@ -174,34 +205,9 @@ namespace OHWebService.Modules
 			}
 			catch (Exception e)
 			{
-				return HandleException(e, String.Format("\nAgentModule.Delete({0})", id));
+				return CommonModule.HandleException(e, String.Format("\nAgentModule.Delete({0})", id), this.Request);
 			}
 		}
-		
-		
-		//TO DO: Check if this can be common
-		
-		Nancy.Response HandleException(Exception e, String operation)
-		{
-			// we were trying this operation
-			String errorContext = String.Format("{1}:{2}: {3} Exception caught in: {0}", operation, DateTime.UtcNow.ToShortDateString(), DateTime.UtcNow.ToShortTimeString(),e.GetType()); 
-			// write detail to the server log. 
-			Console.WriteLine("----------------------\n{0}\n{1}\n--------------------", errorContext, e.Message);
-			if (e.InnerException != null)
-				Console.WriteLine("{0}\n--------------------", e.InnerException.Message);
-			// but don't be tempted to return detail to the caller as it is a breach of security.
-			return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "GET", HttpStatusCode.InternalServerError, "Operational difficulties");
-		}
-		private String GetBodyRaw()
-		{
-			// discover the body as a raw string
-			byte[] b = new byte[this.Request.Body.Length];
-			this.Request.Body.Read(b, 0, Convert.ToInt32(this.Request.Body.Length));
-			System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
-			String bodyData = encoding.GetString(b);
-			return bodyData;
-		}
-		
 		
 		
 	} //end Class: Agent

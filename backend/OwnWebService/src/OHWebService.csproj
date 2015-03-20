@@ -83,11 +83,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AgentModel.cs" />
+    <Compile Include="Models\PropertyModel.cs" />
     <Compile Include="Modules\AgentContext.cs" />
     <Compile Include="Modules\AgentModule.cs" />
+    <Compile Include="Modules\CommonModule.cs" />
     <Compile Include="Modules\ErrorBuilder.cs" />
     <Compile Include="Modules\HomeModule.cs" />
     <Compile Include="Modules\PetaPoco.cs" />
+    <Compile Include="Modules\PropertyContext.cs" />
     <Compile Include="Modules\PropertyModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
