@@ -35,8 +35,15 @@ namespace OHWebService.Modules
 		CommonModule cmn = new CommonModule();
 		public PropertyModule() : base ("/Properties")
 		{
-				// /Properties          GET: Get All Available Properties (public) 
+			// /Properties           GET: Get All Available Properties (public) 
 			Get["/"] = parameter => { return GetAll(); };
+			
+			// /Properties           POST: Listing JSON in body
+			Post["/"] = parameter => { return this.AddListing(); };
+			
+			// /Properties           DELETE: {ListingId}
+			Delete["/{id}"] = parameter => { return this.DeleteListing(parameter.id); };
+			
 		}
 		
 		// -- IMPLEMENTATION PART --
@@ -58,6 +65,71 @@ namespace OHWebService.Modules
 				return CommonModule.HandleException(e, String.Format("PropertyModule.GetAll()"), this.Request);
 			}
 		}
+		
+		// Add property for a particular agent
+		Nancy.Response AddListing()
+		{
+		    // capture actual string posted in case the bind fails (as it will if the JSON is bad)
+			// need to do it now as the bind operation will remove the data
+			//String rawBody = this.GetBodyRaw(); 
+			String rawBody = CommonModule.GetBodyRaw(this.Request);
+			
+			PropertyModel listing = null;
+			try
+			{
+				// bind the request body to the object via a Nancy module.
+				listing = this.Bind<PropertyModel>();
+
+				// check exists. Return 409 if it does
+				if (listing.ListingId > 0)
+				{
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, String.Format("Listing information exists -> {0}", listing.ListingId));
+				}
+
+				// Connect to the database
+				PropertyContext ctx = new PropertyContext();
+				ctx.Add(listing);
+				
+				// 201 - created
+				Nancy.Response response = new Nancy.Responses.JsonResponse<PropertyModel>(listing, new DefaultJsonSerializer());
+				response.StatusCode = HttpStatusCode.Created;
+				// uri
+				string uri = this.Request.Url.SiteBase + this.Request.Path + "/" + listing.Description;
+				response.Headers["Location"] = uri;
+
+				return response;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(rawBody);
+				String operation = String.Format("PropertyModule.AddListing({0})", (listing == null) ? "No Model Data" : listing.Title);
+				return CommonModule.HandleException(e, operation, this.Request);
+			}	
+		}
+		
+		// DELETE /Properties/99
+		Nancy.Response DeleteListing(int id)
+		{
+			try
+			{
+				PropertyContext ctx = new PropertyContext();
+				PropertyModel res = ctx.GetById(id);
+
+				if (res == null)
+				{
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, String.Format("Agent with Id = {0} does not exist", id));
+				}
+				PropertyModel ci = new PropertyModel();
+				ci.ListingId = id;
+				ctx.delete(ci);
+				return 204;
+			}
+			catch (Exception e)
+			{
+				return CommonModule.HandleException(e, String.Format("\nPropertyModule.Delete({0})", id), this.Request);
+			}
+		}
+		
 		
 	} //end class PropertyModule
 }

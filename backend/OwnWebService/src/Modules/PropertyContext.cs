@@ -29,5 +29,22 @@ namespace OHWebService.Modules
 			String sql = "select * from listing where SoldFlag = 0 order by ListingId ";
 			return CommonModule.GetDatabase().Query<PropertyModel>(sql).ToList();
 		}
+        
+        public void Add(PropertyModel listing)
+		{
+			CommonModule.GetDatabase().Insert(listing);
+		}
+        
+        public PropertyModel GetById(int id)
+		{
+		    String sql = "select * from listing where ListingId =" + id.ToString();
+			return CommonModule.GetDatabase().FirstOrDefault<PropertyModel>(sql);
+		}
+        
+        internal void delete(PropertyModel listing)
+		{
+			CommonModule.GetDatabase().Delete(listing);
+		}
+        
     }
 }

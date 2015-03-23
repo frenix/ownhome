@@ -146,7 +146,7 @@ namespace OHWebService.Modules
 		// POST /Agent
 		Nancy.Response AddAgent() 
 		{
-						// debug code only
+			// debug code only
 			// capture actual string posted in case the bind fails (as it will if the JSON is bad)
 			// need to do it now as the bind operation will remove the data
 			//String rawBody = this.GetBodyRaw(); 
