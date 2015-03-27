@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -76,6 +77,9 @@
     <Reference Include="System.Data.SQLite.Linq">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.96.0\lib\net451\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -86,12 +90,17 @@
     <Compile Include="Models\PropertyModel.cs" />
     <Compile Include="Modules\AgentContext.cs" />
     <Compile Include="Modules\AgentModule.cs" />
+    <Compile Include="Modules\AuthModule.cs" />
     <Compile Include="Modules\CommonModule.cs" />
     <Compile Include="Modules\ErrorBuilder.cs" />
+    <Compile Include="Modules\GuidCreator.cs" />
     <Compile Include="Modules\HomeModule.cs" />
+    <Compile Include="Modules\JWT.cs" />
+    <Compile Include="Modules\JwtOwinAuth.cs" />
     <Compile Include="Modules\PetaPoco.cs" />
     <Compile Include="Modules\PropertyContext.cs" />
     <Compile Include="Modules\PropertyModule.cs" />
+    <Compile Include="Modules\SendMail.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

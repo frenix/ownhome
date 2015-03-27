@@ -51,8 +51,8 @@ namespace OHWebService.Modules
 		// TODO: check if this should be public static or just public
 		public static PetaPoco.Database GetDatabase()
 		{
-		    string conStr = ConfigurationSettings.AppSettings["conStr"];
-		    string dbName = ConfigurationSettings.AppSettings["dbName"];
+		    string conStr = System.Configuration.ConfigurationManager.AppSettings["conStr"];
+		    string dbName = System.Configuration.ConfigurationManager.AppSettings["dbName"];
 		    
 			// A sqlite database is just a file.
 			String fileName = Path.Combine(conStr, dbName);

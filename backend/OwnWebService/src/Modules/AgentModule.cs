@@ -41,6 +41,11 @@ namespace OHWebService.Modules
 			{ 
 				var profile = this.Bind<AgentModel>();
 				
+				Guid g = GuidCreator.Value(parameter.Username);
+				Console.WriteLine(g);
+				
+				int s = SendMail.Send();
+				
 				return IsValidUser(profile);
 			};
 			
