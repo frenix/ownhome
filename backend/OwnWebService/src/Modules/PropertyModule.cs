@@ -44,6 +44,7 @@ namespace OHWebService.Modules
 			// /Properties           DELETE: {ListingId}
 			Delete["/{id}"] = parameter => { return this.DeleteListing(parameter.id); };
 			
+			// /Properties           UPDATE: 
 		}
 		
 		// -- IMPLEMENTATION PART --
@@ -105,6 +106,35 @@ namespace OHWebService.Modules
 				String operation = String.Format("PropertyModule.AddListing({0})", (listing == null) ? "No Model Data" : listing.Title);
 				return CommonModule.HandleException(e, operation, this.Request);
 			}	
+		}
+		
+		// PUT /Properties/1
+		// http://stackoverflow.com/questions/2342579/http-status-code-for-update-and-delete 
+		Nancy.Response UpdateListing(int id)
+		{
+			PropertyModel listing = null;
+			try
+			{
+				// bind the request body to the object
+				listing = this.Bind<PropertyModel>();
+
+				PropertyContext ctx = new PropertyContext();
+
+				listing.ListingId = id;
+				PropertyModel res = ctx.GetById(id);
+				if (res == null)
+				{
+					return 404;
+				}
+
+				ctx.update(listing);
+				return 204; // no content response
+			}
+			catch (Exception e)
+			{
+				String operation = String.Format("PropertyModule.UpdateListing({0})", (badge == null) ? "No Model Data" : badge.Title);
+				return HandleException(e, operation);
+			}
 		}
 		
 		// DELETE /Properties/99
