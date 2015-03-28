@@ -1,0 +1,59 @@
+{
+  "name": "angular-resource",
+  "version": "1.3.14",
+  "description": "AngularJS module for interacting with RESTful server-side data sources",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular/angular.js.git"
+  },
+  "keywords": [
+    "angular",
+    "framework",
+    "browser",
+    "rest",
+    "client-side"
+  ],
+  "author": {
+    "name": "Angular Core Team",
+    "email": "angular-core+npm@google.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angular/angular.js/issues"
+  },
+  "homepage": "http://angularjs.org",
+  "gitHead": "0e41d00618cd1f76d3c4d6b98e9cae312b3bf5a3",
+  "_id": "angular-resource@1.3.14",
+  "_shasum": "08448d782091380bc9df717123e4bbdd0fed2f3f",
+  "_from": "angular-resource@*",
+  "_npmVersion": "2.0.2",
+  "_nodeVersion": "0.10.26",
+  "_npmUser": {
+    "name": "angularcore",
+    "email": "angular-core+npm@google.com"
+  },
+  "maintainers": [
+    {
+      "name": "roylines",
+      "email": "roy@roylines.co.uk"
+    },
+    {
+      "name": "angularcore",
+      "email": "angular-core+npm@google.com"
+    },
+    {
+      "name": "petebd",
+      "email": "pete@bacondarwin.com"
+    }
+  ],
+  "dist": {
+    "shasum": "08448d782091380bc9df717123e4bbdd0fed2f3f",
+    "tarball": "http://registry.npmjs.org/angular-resource/-/angular-resource-1.3.14.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/angular-resource/-/angular-resource-1.3.14.tgz"
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- CSS (load bootstrap) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        .navbar { border-radius:0; }
+    </style>
+    <!-- mobile view -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<!-- apply our angular app to our site -->
+<body ng-app="myApp">
+
+<!-- NAVIGATION -->
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand logo" ui-sref="#"><img alt="Own Home" src="img/logo-text.png"></a>
+
+    </div>
+    <ul class="nav navbar-nav">
+        <li><a ui-sref="search">Search</a></li>
+        <!--<li><a ui-sref="about">About</a></li>-->
+    </ul>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-ng-show="token"><a ui-sref="myproperties">My Properties</a></li>
+            <li data-ng-hide="token"><a ui-sref="login">Login</a></li>
+            <li data-ng-hide="token"><a ui-sref="signup">Sign-up</a></li>
+        </ul>
+    </div>
+
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+    <div ui-view></div>
+
+
+</div>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="../node_modules/ui-router-master/release/angular-ui-router.js"></script>
+
+<script src="js/app.js"></script>
+<script src="js/controllers/ScotchController.js"></script>
+<script src="js/controllers/ProfileController.js"></script>
+<script src="js/directives.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="migrationApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>My AngularJS: ZFP1 Migration</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/app.css"/>
+
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="browsehappy">
+    <div ng-controller="MigrationController">
+        <div class="container">
+            <h1>ZFP1 Migration Details</h1>
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" ng-click="rma.selectAll"/></th>
+                    <th>Row</th>
+                    <th>{{rma.header.rmaNumber}}</th>
+                    <th>{{rma.header.item}}</th>
+                    <th>{{rma.header.runningStatus}}</th>
+                    <th>{{rma.header.concurrentStatus}}</th>
+                    <th>{{rma.header.flag}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in rma.items">
+                    <td><input type="checkbox" ng-model="item.selected"></td>
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.rma}}</td>
+                    <td>{{item.item}}</td>
+                    <td>{{item.runningStatus}}</td>
+                    <td>{{item.concurrentStatus}}</td>
+                    <td>{{item.flag}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+
+
+                    <hr />
+            <h3>Selected Rows</h3>
+
+
+
+
+
+                    <hr/>
+
+                    <button class="btn" ng-disabled="disableBtn">Sample Button</button>
+
+                    <hr />
+
+            </div>
+        </div>
+    </div>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="js/app.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/controllers/MigrationController.js"></script>
+<script src="../node_modules/ui-router-master/release/angular-ui-router.js"></script>
+
+</body>
+</html>

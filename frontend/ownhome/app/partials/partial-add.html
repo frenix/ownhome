@@ -1,0 +1,30 @@
+<form ng-submit="add()">
+    <h3>Add {{message}}</h3>
+
+    <div class="form-group">
+        <p>First Name:</p>
+        <input type="text"
+               class="form-control"
+               placeholder="First name given by your mom.."
+               ng-model="myform.firstname"/>
+        <p>Last Name:</p>
+        <input type="text"
+               class="form-control"
+               placeholder="Write your dad's last name here.."
+               ng-model="myform.lastname"/>
+        <p>Describe yourself:</p>
+        <input type="text"
+               class="form-control"
+               placeholder="Care to describe yourself?"
+               ng-model="myform.description"/>
+
+    </div>
+
+    <!--<div class="form-group">
+        <input type="text"
+               class="form-control"
+               placeholder="Comment"
+               ng-model="body"></input>
+    </div>-->
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

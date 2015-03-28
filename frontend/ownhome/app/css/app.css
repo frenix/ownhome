@@ -1,0 +1,14 @@
+/* app css stylesheet */
+
+.navbar-header .logo img {
+    width:95px;
+    height:45px;
+    margin-top:-10px;
+    margin-right:-20px;
+}
+
+.jumbotron.text-center img {
+    width:50%;
+    height:50%;
+}
+
