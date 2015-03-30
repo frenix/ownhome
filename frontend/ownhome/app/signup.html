@@ -1,15 +1,15 @@
-<div class="jumbotron text-center">
-    <h1>Sign-up</h1>
-    <p>Start creating your own account to post <span class="text-danger">property listings</span> with the widest reach.</p>
-</div>
-
 <div ng-controller="profileController">
-    <p class="help-block alert-info">All fields are required.</p>
+
+    <form class="form-signin" ng-submit="signup()" name="profileForm" novalidate>
+
+    <h2 class="form-signin-heading">Sign-up</h2>
+    <p>Start creating your own account to post <span class="text-danger">property listings</span> with the widest reach.</p>
+
+
     <p class="help-block">For your privacy and safety, your email address will not be displayed anywhere on your property listing.</p>
+    <p class="help-block alert-info">All fields are required.</p>
 
-    <form ng-submit="signup()" name="profileForm" novalidate>
-
-    <!-- First Name -->
+        <!-- First Name -->
     <div class="form-group" ng-class="{ 'has-error' : profileForm.fname.$invalid && !profileForm.fname.$pristine }">
         <label>First Name</label>
         <input type="text" class="form-control" name="fname" ng-model="profile.fname" placeholder="Enter your first name.." required>
@@ -54,7 +54,6 @@
         <p ng-show="profileForm.cpassword.$error.mismatch && !profileForm.cpassword.$pristine" class="help-block">Passwords don't match.</p>
     </div>
 
-
     <div class="form-group">
         <label for="profilePix">File input</label>
         <input type="file" id="profilePix" >
@@ -64,7 +63,7 @@
     </div>
 
     <!--<button type="submit" class="btn btn-default" ng-disabled="profile.$invalid" >Submit</button>-->
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
 
         <pre>
             {{ profile | json }}

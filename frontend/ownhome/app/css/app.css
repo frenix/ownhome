@@ -1,4 +1,6 @@
-/* app css stylesheet */
+/* app css stylesheet overrides */
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 .navbar-header .logo img {
     width:95px;

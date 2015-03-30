@@ -1,7 +1,7 @@
 'use strict';
 
 /** https://scotch.io/tutorials/angular-routing-using-ui-router **/
-var myApp = angular.module('myApp', ['ui.router','ngResource']);
+var myApp = angular.module('myApp', ['ui.router','ngResource', 'ui.bootstrap']);
 
 
 myApp.config(function($stateProvider, $urlRouterProvider) {
@@ -27,12 +27,54 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'login.html'
         })
 
-        .state('myproperties', {
-            url: '/myproperties',
-            templateUrl: 'partials/partial-home-list.html',
-            controller: function($scope) {
-                $scope.dogs = ['Bernese', 'Husky', 'Goldendoodle'];
+        .state('logout', {
+            url: '/search',
+            templateUrl: 'search.html',
+            controller: function($window,$rootScope) {
+                delete $window.sessionStorage.token;
+                delete $rootScope.token ;
+                //$rootScope.apply();
             }
+        })
+
+  /*      .state('property', {
+            url: '/property',
+            templateUrl: 'property-list.html',
+            controller: function($scope, $window) {
+                if($window.sessionStorage.token){
+                    $scope.token = $window.sessionStorage.token;
+                }
+            }
+        }) */
+
+        // nested list with custom controller
+        .state('my-properties', {
+            url: '/myproperties',
+            templateUrl: 'property-list-mine.html',
+            views : {
+                '': { templateUrl: 'property-list-mine.html'
+                        /*controller: function($scope, $window) {
+
+                            if($window.sessionStorage.token){
+                                $scope.token = $window.sessionStorage.token;
+                            }
+                        }*/
+                },
+
+                // the child views will be defined here (absolutely named)
+                'display@my-properties': { template: 'Look I am a column!xoxo' }
+            }
+
+        })
+
+        .state('all-properties', {
+            url: '/allproperties',
+            templateUrl: 'property-list-public.html'
+        })
+
+        .state('unauthorized', {
+            url: '/unauthorized',
+            templateUrl: 'partials/unauthorized.html'
         })
 
         // HOME STATES AND NESTED VIEWS ========================================
@@ -81,55 +123,35 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 
 }); // closes $myApp.config()
 
-/**
- * Reference: http://mikehadlow.blogspot.com/2014/04/json-web-tokens-owin-and-angularjs.html
- * This does two things: on the outbound request it adds an Authorization header ‘Bearer <token>’ if the token is present.
- * This will be decoded by our OWIN middleware to authorize each request. The interceptor also checks the response.
- * If there’s a 401 (unauthorized) response, it simply bumps the user back to the login screen.
- */
-/*myApp.factory('authInterceptor', function ($rootScope, $q, $window, $location) {
-    return {
-        request: function (config) {
-            config.headers = config.headers || {};
-            if($window.sessionStorage.token) {
-                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
-            }
-            return config;
-        },
-        responseError: function (response) {
-            if(response.status === 401) {
-                $location.path('/login');
-            }
-            return $q.reject(response);
-        }
-    };
-});
-
-myApp.config(function ($httpProvider) {
-    $httpProvider.interceptors.push('authInterceptor');
-});
-*/
 //http://www.toptal.com/web/cookie-free-authentication-with-json-web-tokens-an-example-in-laravel-and-angularjs
 /**The $http service of AngularJS allows us to communicate with the backend and make HTTP requests.
  * In our case we want to intercept every HTTP request and inject it with an Authorization header containing our JWT if the user is authenticated.
  * We can also use an interceptor to create a global HTTP error handler.
  * Here is an example of our interceptor that injects a token if it’s available in browser’s local storage
  */
-
-$httpProvider.interceptors.push(['$q', '$location', '$localStorage', function ($q, $location, $localStorage) {
+myApp.config(function ($httpProvider) {
+$httpProvider.interceptors.push(['$q', '$location','$window', function ($q, $location, $window) {
     return {
         'request': function (config) {
             config.headers = config.headers || {};
+
+            console.log("here in interceptor token=" + $window.sessionStorage.token);
+
             if ($window.sessionStorage.token) {
                 config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token
             }
             return config;
         },
         'responseError': function (response) {
+            console.log("ERROR here in interceptor");
+            console.log("status=" + response.status)
             if (response.status === 401 || response.status === 403) {
-                $location.path('/login');
+                $location.path('/unauthorized');
             }
             return $q.reject(response);
         }
     };
 }]);
+});
+
+
