@@ -1,41 +1,64 @@
-<div ng-controller="CarouselCtrl">
-    <div style="height: 305px">
-        <carousel interval="myInterval">
-            <slide ng-repeat="slide in slides" active="slide.active">
-                <img ng-src="{{slide.image}}" style="margin:auto;">
-                <div class="carousel-caption">
-                    <h4>Slide {{$index}}</h4>
-                    <p>{{slide.text}}</p>
-                </div>
-            </slide>
-        </carousel>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
-        </div>
-        <div class="col-md-6">
-            Interval, in milliseconds: <input type="number" class="form-control" ng-model="myInterval">
-            <br />Enter a negative number or 0 to stop the interval.
-        </div>
-    </div>
-</div>
-
-
-<!--
 <div class="jumbotron text-center">
-    <h1>My Property Listings</h1>
+    <h2>My Property Listings</h2>
 </div>
 
 <div class="row">
 
     <div class="col-sm-6">
-        My Property Listings
+        <h4>My Property Listings</h4>
+
+        <div ng-controller="CarouselCtrl">
+
+                <div class="col-xs-6">
+                    <carousel interval="myInterval">
+                        <slide ng-repeat="slide in slides" active="slide.active">
+                            <img  class="img-thumbnail" ng-src="{{slide.image}}">
+                            <div class="carousel-caption">
+                            </div>
+                        </slide>
+                    </carousel>
+                </div>
+                    <div class="col-xs-6">
+                    <carousel interval="myInterval">
+                        <slide ng-repeat="slide in slides" active="slide.active">
+                            <img  class="img-thumbnail" ng-src="{{slide.image}}">
+                            <div class="carousel-caption">
+                               <!-- <h4>Slide {{$index}}</h4>
+                                <p>{{slide.text}}</p>-->
+                            </div>
+                        </slide>
+                    </carousel>
+                </div>
+
+            <div class="col-xs-6">
+                <carousel interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img  class="img-thumbnail" ng-src="{{slide.image}}">
+                        <div class="carousel-caption">
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+            <div class="col-xs-6">
+                <carousel interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img  class="img-thumbnail" ng-src="{{slide.image}}">
+                        <div class="carousel-caption">
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+
+        </div>
     </div>
 
     <div class="col-sm-6">
-        Add A Listing
+        <h4>Add Property</h4>
+        Google Map Insert Here
         <div ui-view="display"></div>
     </div>
 
-</div> -->
+</div>
+
+
+

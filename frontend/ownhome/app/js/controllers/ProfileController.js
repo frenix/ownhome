@@ -1,7 +1,10 @@
+/** References:
+ *  http://mikehadlow.blogspot.com/2014/04/json-web-tokens-owin-and-angularjs.html
+ */
 myApp.controller('profileController',
     function ($scope , $http, $resource, $window, $location, $rootScope){
 
-        var backendUrl = "http://192.168.254.104:8088";
+        var backendUrl = "http://192.168.254.108:8088";
 
         //default values for the profile form
         $scope.profile = {
@@ -30,7 +33,7 @@ myApp.controller('profileController',
             };
 
             //var url = backendUrl + "/login"
-            var url = backendUrl + "/auth" //test for authentication
+            var url = backendUrl + "/login" //test for authentication
             var responsePromise = $http.post(url, dataObject, {});
             responsePromise.success(function(data, status, headers, config) {
                 console.log("success=" + JSON.stringify(data));
@@ -73,7 +76,7 @@ myApp.controller('profileController',
                 console.log("Submitting form failed!");
 
                 /** simulation **/
-                var data = {
+               /* var data = {
                     token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibWlrZSIsImV4cCI6MTIzNDU2Nzg5fQ.KG-ds05HT7kK8uGZcRemhnw3er_9brQSF1yB2xAwc_E"
                     //sample, generated from server
                 };
@@ -84,10 +87,11 @@ myApp.controller('profileController',
                 console.log("token=" + $window.sessionStorage.token);
                 $rootScope.token = data.token;
                 $location.path('/myproperties');
+                */
 
 
                 // Erase the token if the user fails to login
-                // delete $window.sessionStorage.token;
+                 delete $window.sessionStorage.token;
 
                 // $scope.message = 'Error: Invalid email or password';
 
@@ -117,7 +121,9 @@ myApp.controller('profileController',
 
                 //var url = "http://localhost:3000/persons";
                 var url = backendUrl + "/Agents"
-                var responsePromise = $http.post(url, dataObject, {});
+                //test
+                var responsePromise = $http.get(url, dataObject, {});
+                //var responsePromise = $http.post(url, dataObject, {});
                 responsePromise.success(function(dataFromServer, status, headers, config) {
                     console.log("success=" + dataFromServer);
                 });

@@ -1,15 +1,81 @@
 <div class="jumbotron text-center">
     <h2><span class="text-danger"> Public </span> Property Listings</h2>
+</div>
+
+<div class="row">
+
+    <div class="col-sm-6">
+        <h4>Public Property Listings</h4>
+
+        <div ng-controller="CarouselCtrl">
+
+            <div class="col-xs-6">
+                <carousel interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img  class="img-thumbnail" ng-src="{{slide.image}}">
+                        <div class="carousel-caption">
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+            <div class="col-xs-6">
+                <carousel interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img  class="img-thumbnail" ng-src="{{slide.image}}">
+                        <div class="carousel-caption">
+                            <!-- <h4>Slide {{$index}}</h4>
+                             <p>{{slide.text}}</p>-->
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+
+            <div class="col-xs-6">
+                <carousel interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img  class="img-thumbnail" ng-src="{{slide.image}}">
+                        <div class="carousel-caption">
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+            <div class="col-xs-6">
+                <carousel interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img  class="img-thumbnail" ng-src="{{slide.image}}">
+                        <div class="carousel-caption">
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        Google Map Insert Here
+        <div ui-view="display"></div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<!--<div class="jumbotron text-center">
+    <h2><span class="text-danger"> Public </span> Property Listings</h2>
 
     <!--<a ui-sref=".mine" class="btn btn-primary" data-ng-show="token">My List</a>
-    <a ui-sref=".all" class="btn btn-danger">All Public Properties</a>-->
+    <a ui-sref=".all" class="btn btn-danger">All Public Properties</a>
 </div>
 
 <div class="row">
 
     <div class="col-sm-6">
         first column
-        <!--<a ui-sref=".display" class="btn btn-primary">Test Display</a>-->
+        <!--<a ui-sref=".display" class="btn btn-primary">Test Display</a>
     </div>
 
     <div class="col-sm-6">
@@ -17,4 +83,4 @@
         <div ui-view="display"></div>
     </div>
 
-</div>
+</div>-->

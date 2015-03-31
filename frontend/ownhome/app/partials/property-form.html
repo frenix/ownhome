@@ -1,0 +1,68 @@
+<div ng-controller="profileController">
+
+    <form class="form-signin" ng-submit="signup()" name="profileForm" novalidate>
+
+        <p class="help-block alert-info">All fields are required.</p>
+
+        <!-- First Name -->
+        <div class="form-group" ng-class="{ 'has-error' : profileForm.fname.$invalid && !profileForm.fname.$pristine }">
+            <label>First Name</label>
+            <input type="text" class="form-control" name="fname" ng-model="profile.fname" placeholder="Enter your first name.." required>
+            <p ng-show="profileForm.fname.$invalid && !profileForm.fname.$pristine " class="help-block">Your first name is required.</p>
+        </div>
+
+
+        <!-- Last Name -->
+        <div class="form-group" ng-class="{ 'has-error' : profileForm.lname.$invalid && !profileForm.lname.$pristine }">
+            <label>Last Name</label>
+            <input type="text" class="form-control" name="lname" ng-model="profile.lname" placeholder="Enter your last name.." required>
+            <p ng-show="profileForm.lname.$invalid && !profileForm.lname.$pristine" class="help-block">Your last name is required.</p>
+        </div>
+
+        <!-- Email Address -->
+        <div class="form-group" ng-class="{ 'has-error' : profileForm.email.$invalid && !profileForm.email.$pristine }">
+            <label>Email Address (Username) </label>
+            <input type="email" class="form-control" name="email" ng-model="profile.email" placeholder="Enter a valid email address.." required>
+            <p ng-show="profileForm.email.$invalid && !profileForm.email.$pristine" class="help-block">Enter a valid email address.</p>
+        </div>
+
+        <!-- Confirm email address -->
+        <div class="form-group" ng-class="{ 'has-error' : profileForm.cemail.$error.mismatch && !profileForm.cemail.$pristine }">
+            <label>Confirm Email Address</label>
+            <input type="email" class="form-control" name="cemail" ng-model="profile.cemail" placeholder="Confirm your email address.."
+                   match="profile.email">
+            <p ng-show="profileForm.cemail.$error.mismatch && !profileForm.cemail.$pristine" class="help-block">Email addresses don't match.</p>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group" ng-class="{ 'has-error' : profileForm.password.$invalid && !profileForm.password.$pristine }">
+            <label>Password</label>
+            <input type="password" class="form-control" name="password" ng-model="profile.password" placeholder="Enter your password.." required>
+            <p ng-show="profileForm.password.$invalid && !profileForm.password.$pristine" class="help-block">Enter a password.</p>
+        </div>
+
+        <!-- Confirm password -->
+        <div class="form-group" ng-class="{ 'has-error' : profileForm.cpassword.$error.mismatch && !profileForm.cpassword.$pristine }">
+            <label>Confirm Password</label>
+            <input type="password" class="form-control" name="cpassword" ng-model="profile.cpassword" placeholder="Confirm your password.."
+                   required match="profile.password">
+            <p ng-show="profileForm.cpassword.$error.mismatch && !profileForm.cpassword.$pristine" class="help-block">Passwords don't match.</p>
+        </div>
+
+        <div class="form-group">
+            <label for="profilePix">File input</label>
+            <input type="file" id="profilePix" >
+            <p class="help-block">Upload your profile picture.
+                This will show in every property listing you will be advertising.
+                Please make this picture decent as your prospective customers will only have this picture as basis of your profile.</p>
+        </div>
+
+        <!--<button type="submit" class="btn btn-default" ng-disabled="profile.$invalid" >Submit</button>-->
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+
+        <pre>
+            {{ profile | json }}
+        </pre>
+
+    </form>
+</div>

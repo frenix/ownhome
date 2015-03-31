@@ -62,7 +62,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
                 },
 
                 // the child views will be defined here (absolutely named)
-                'display@my-properties': { template: 'Look I am a column!xoxo' }
+                'display@my-properties': { templateUrl: 'partials/property-form.html' }
             }
 
         })
@@ -129,6 +129,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
  * We can also use an interceptor to create a global HTTP error handler.
  * Here is an example of our interceptor that injects a token if it’s available in browser’s local storage
  */
+
 myApp.config(function ($httpProvider) {
 $httpProvider.interceptors.push(['$q', '$location','$window', function ($q, $location, $window) {
     return {
