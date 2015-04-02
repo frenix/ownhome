@@ -35,10 +35,10 @@ namespace OHWebService.Modules
         public dynamic LoginHandler(LoginRequest loginRequest)
         {
             if (IsValidUser (loginRequest.email, loginRequest.password)) {
-
+				//{ "userId", 101 }
                 var payload = new Dictionary<string, object> {
                     { "email", loginRequest.email },
-                    { "userId", 101 }
+                    { "userId", GuidCreator.New() }
                 };
 
                 var token = JsonWebToken.Encode (payload, secretKey, JwtHashAlgorithm.HS256);

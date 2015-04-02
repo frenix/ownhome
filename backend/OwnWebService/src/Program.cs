@@ -44,10 +44,9 @@ namespace OHWebService
       
             public void Configuration(IAppBuilder app)
             {
-               
-//               .UseNancy(options => options.PassThroughWhenStatusCodesAre(
-//				              HttpStatusCode.NotFound,
-//				              HttpStatusCode.InternalServerError))
+            	//Enable CORS
+            	//Use JWTOwinAuth middleware
+            	//Use Nancy framework
 				app		
                     .UseCors(CorsOptions.AllowAll)				    
 					.Use(typeof(JwtOwinAuth))
