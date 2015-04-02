@@ -17,6 +17,7 @@ using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
 using OHWebService.Models;
+using OHWebService.Authentication;
 
 namespace OHWebService.Modules
 {
@@ -41,7 +42,7 @@ namespace OHWebService.Modules
 			{ 
 				var profile = this.Bind<AgentModel>();
 				
-				Guid g = GuidCreator.Value(parameter.Username);
+				Guid g = GuidCreator.New();
 				Console.WriteLine(g);
 				
 				int s = SendMail.Send();

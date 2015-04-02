@@ -41,6 +41,11 @@ namespace OHWebService.Modules
 			return CommonModule.GetDatabase().FirstOrDefault<PropertyModel>(sql);
 		}
         
+        internal void update(PropertyModel listing)
+		{
+			CommonModule.GetDatabase().Update(listing);
+		}
+        
         internal void delete(PropertyModel listing)
 		{
 			CommonModule.GetDatabase().Delete(listing);

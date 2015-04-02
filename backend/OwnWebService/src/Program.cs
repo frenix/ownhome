@@ -9,56 +9,51 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
 using Nancy;
-using Nancy.Bootstrapper;
-using Nancy.TinyIoc;
+using Nancy.Owin;
+
+using Owin;
+using Microsoft.Owin.Hosting;
+using Microsoft.Owin.Cors;
+
+using OHWebService.Authentication;
 
 namespace OHWebService
 {
-	class Program
-	{
-		// Our url.
-		const string DOMAIN = "http://localhost:8088";
-		
-		public static void Main(string[] args)
+    using AppFunc =  Func<IDictionary<string, object>, Task>;
+    class Program
+    {
+        static void Main(string[] args)
 		{
-			var nancyHost = new Nancy.Hosting.Self.NancyHost(new Uri(DOMAIN));
-			
-			//start
-			nancyHost.Start();
-			
-			Console.WriteLine("ProperyFinder service listening on " + DOMAIN);
-			// stop with an <Enter key press>
-			Console.ReadLine();
-			nancyHost.Stop();
+			 var url = "http://+:8088";
+
+                using (WebApp.Start<Startup>(url))
+                {
+                    Console.WriteLine("Running on {0}", url);
+                    Console.WriteLine("Press enter to exit");
+                    Console.ReadLine();
+                }
 		}
-	}
-	
-	// utterly basic configuration of the Nancy server. Other configuration not researched.
-	public class Bootstrapper : Nancy.DefaultNancyBootstrapper
-	{
-		protected virtual Nancy.Bootstrapper.NancyInternalConfiguration InternalConfiguration
-		{
-			get
-			{
-				return Nancy.Bootstrapper.NancyInternalConfiguration.Default;
-			}
-		}
-		
-		protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
-			    {
-			
-			       //CORS Enable
-			        pipelines.AfterRequest.AddItemToEndOfPipeline((ctx) =>
-			        {
-			            ctx.Response.WithHeader("Access-Control-Allow-Origin", "*")
-			                            .WithHeader("Access-Control-Allow-Methods", "POST,GET")
-			                            .WithHeader("Access-Control-Allow-Headers", "Accept, Origin, Content-type");
-			
-			        });
-				}
-	}
-		
+        
+        //Startup
+        public class Startup
+        {
+      
+            public void Configuration(IAppBuilder app)
+            {
+               
+//               .UseNancy(options => options.PassThroughWhenStatusCodesAre(
+//				              HttpStatusCode.NotFound,
+//				              HttpStatusCode.InternalServerError))
+				app		
+                    .UseCors(CorsOptions.AllowAll)				    
+					.Use(typeof(JwtOwinAuth))
+				    .UseNancy();
+					
+            }
+        }
+    }
 }

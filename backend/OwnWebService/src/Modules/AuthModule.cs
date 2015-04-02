@@ -8,10 +8,11 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Configuration;
+//using System.Configuration;
 using Nancy;
 using Nancy.ModelBinding;
 using JWT;
+using OHWebService.Authentication;
 namespace OHWebService.Modules
 {
 	/// <summary>
@@ -20,11 +21,12 @@ namespace OHWebService.Modules
 	public class AuthModule	: Nancy.NancyModule
 	{
 		private readonly string secretKey;
+       // private readonly IUserService userService;
                
         
         public AuthModule ()  : base ("/login")
         {
- //Post["/"] = parameter => { return this.AddAgent(); };
+
             Post ["/"] = _ => LoginHandler(this.Bind<LoginRequest>());
 
             secretKey = System.Configuration.ConfigurationManager.AppSettings ["SecretKey"];
@@ -49,6 +51,8 @@ namespace OHWebService.Modules
         
         private bool IsValidUser(string email, string pass) 
 		{
+            //check expiry
+            //https://github.com/jchannon/Owin.StatelessAuth/blob/master/src/Owin.StatelessAuthExample/MySecureTokenValidator.cs
 			return true;
 		}
     }
