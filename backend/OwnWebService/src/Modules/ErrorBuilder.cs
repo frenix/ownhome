@@ -17,12 +17,13 @@ namespace OHWebService.Modules
 	/// </summary>
 	public class ErrorBuilder
 	{
-		public static Nancy.Response ErrorResponse(string url, string verb, HttpStatusCode code, string errorMessage)
+		public static Nancy.Response ErrorResponse(string url, string verb, HttpStatusCode code, string status, string errorMessage)
 		{
 			ErrorBody e = new ErrorBody
 			{
 				Url = url, 
 				Operation = verb,
+				Status = status,
 				Message = errorMessage
 			};
 			// Build and return an object that the Nancy server knows about.
@@ -37,6 +38,7 @@ namespace OHWebService.Modules
     {
         public string Url {get; set; }
         public string Operation { get; set; }
+        public string Status { get; set; }
         public string Message { get; set; }
     }
 }

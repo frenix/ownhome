@@ -25,7 +25,7 @@ namespace OHWebService.Modules
         
         		
 		// Process errors
-		public static Nancy.Response HandleException(Exception e, String operation, Nancy.Request req)
+		public static Nancy.Response HandleException(Exception e, String operation, String status, Nancy.Request req)
 		{
 			// we were trying this operation
 			String errorContext = String.Format("{1}:{2}: {3} Exception caught in: {0}", operation, DateTime.UtcNow.ToShortDateString(), DateTime.UtcNow.ToShortTimeString(),e.GetType()); 
@@ -34,7 +34,8 @@ namespace OHWebService.Modules
 			if (e.InnerException != null)
 				Console.WriteLine("{0}\n--------------------", e.InnerException.Message);
 			// but don't be tempted to return detail to the caller as it is a breach of security.
-			return ErrorBuilder.ErrorResponse(req.Url.ToString(), "GET", HttpStatusCode.InternalServerError, "Operational difficulties");
+			//return ErrorBuilder.ErrorResponse(req.Url.ToString(), "GET", HttpStatusCode.InternalServerError, "Operational difficulties");
+			return ErrorBuilder.ErrorResponse(req.Url.ToString(), req.Method, HttpStatusCode.InternalServerError, status, "Operational difficulties");
 		}
 		
 		// Get Raw Data (JSON) from Nancy.Request
