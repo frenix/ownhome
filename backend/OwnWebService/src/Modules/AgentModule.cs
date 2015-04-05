@@ -32,35 +32,22 @@ namespace OHWebService.Modules
                                 </body></html>
                                 ";
 	    	    
-		public AgentModule() : base("/Agents")
+		public AgentModule() : base("/agents")
 		{
-		    // /Agent
+		    // /agent
 		    Get["/"] = parameter => { return GetAll(); };
-			
-			// /Agent/99/pass [temp]
-			Get["/{Username}/{Password}"] = parameter => 
-			{ 
-				var profile = this.Bind<AgentModel>();
 				
-				Guid g = GuidCreator.New();
-				Console.WriteLine(g);
-				
-				int s = SendMail.Send();
-				
-				return IsValidUser(profile);
-			};
-			
-			// /Agent/99
+			// /agent/99
 			Get["/{id}"] = parameter => { return GetById(parameter.id); };			
-			
-			// /Agent/root@ownhome.com
-			Get["/{emailadd}"] = parameter => { return GetByEmailAdd(parameter.emailadd); };	
-			
-			// /Agent       POST: Agent JSON in body
+							
+			// /agent       POST: Agent JSON in body
 			Post["/"] = parameter => { return this.AddAgent(); };
 			
-			// /Agent        DELETE: {AgentId}
+			// /agent        DELETE: {AgentId}
 			Delete["/{id}"] = parameter => { return this.DeleteAgent(parameter.id); };
+			
+			// /agent/		PUT: Token JSON in body
+			Put["/"] = parameter => { return this.UpdateAgentByToken(); };
 		}
 		
 		// -- IMPLEMENTATION PART --
@@ -76,7 +63,7 @@ namespace OHWebService.Modules
 				if (res == null)   // a null return means no object found
 				{
 					// return a reponse conforming to REST conventions: a 404 error
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "GET", HttpStatusCode.NotFound, String.Format("Agent with Id = {0} does not exist", id));
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "GET", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
 				}
 				else
 				{
@@ -87,34 +74,7 @@ namespace OHWebService.Modules
 			// Please, please handle exceptions in a way that provides information about the context of the error.
 			catch (Exception e)
 			{
-				return CommonModule.HandleException(e, String.Format("AgentModule.GetById({0})", id), this.Request);
-			}
-		}
-		
-		// GET /Agents/root@ownhome.com
-		// DOESNT WORK!!!! email as param
-		private object GetByEmailAdd(string emailadd)
-		{
-			try
-			{
-				// create a connection to the PetaPoco orm and try to fetch and object with the given Id
-				AgentContext ctx = new AgentContext();
-				AgentModel res = ctx.GetByEmailAdd(emailadd);
-				if (res == null)   // a null return means no object found
-				{
-					// return a reponse conforming to REST conventions: a 404 error
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "GET", HttpStatusCode.NotFound, String.Format("Agent with email = {0} does not exist", emailadd));
-				}
-				else
-				{
-					// success. The Nancy server will automatically serialise this to JSON
-					return res;
-				}
-			}
-			// Please, please handle exceptions in a way that provides information about the context of the error.
-			catch (Exception e)
-			{
-				return CommonModule.HandleException(e, String.Format("AgentModule.GetByEmailAdd({0})", emailadd), this.Request);
+				return CommonModule.HandleException(e, String.Format("AgentModule.GetById({0})", id), "NG", this.Request);
 			}
 		}
 		
@@ -132,20 +92,7 @@ namespace OHWebService.Modules
 			}
 			catch (Exception e)
 			{
-				return CommonModule.HandleException(e, String.Format("AgentModule.GetAll()"), this.Request);
-			}
-		}
-		
-		// GET /Agent/root/pass
-		private object IsValidUser(AgentModel agent) 
-		{
-			if ( agent.EmailAddress == "root@ownhome.com" && agent.Password == "pass") 
-			{
-			    return "true";
-			} 
-			else 
-			{
-				return "false";		    	
+				return CommonModule.HandleException(e, String.Format("AgentModule.GetAll()"), "NG", this.Request);
 			}
 		}
 		
@@ -158,6 +105,10 @@ namespace OHWebService.Modules
 			//String rawBody = this.GetBodyRaw(); 
 			String rawBody = CommonModule.GetBodyRaw(this.Request);
 			
+			//setup GUID for this user
+			Guid uuid = GuidCreator.New();
+			string fullName;
+			
 			AgentModel profile = null;
 			try
 			{
@@ -167,9 +118,13 @@ namespace OHWebService.Modules
 				// check exists. Return 409 if it does
 				if ((profile.EmailAddress.Length == 0) && (profile.Password.Length == 0))
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, String.Format("Please update your email address-> {0}", profile.EmailAddress));
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, "NG", String.Format("Please update your email address-> {0}", profile.EmailAddress));
 				}
-
+				
+				//update AuthKey with GUID
+				profile.AuthKey = uuid.ToString();
+				//create fullname of the agent
+				fullName = profile.FirstName + " " + profile.LastName;
 				// Connect to the database
 				AgentContext ctx = new AgentContext();
 				ctx.Add(profile);
@@ -180,14 +135,18 @@ namespace OHWebService.Modules
 				// uri
 				string uri = this.Request.Url.SiteBase + this.Request.Path + "/" + profile.EmailAddress;
 				response.Headers["Location"] = uri;
-
+				
+				
+				//send email for confirmation
+				// this is to update confirmedFlag in db
+				SendMail.Send(fullName , profile.EmailAddress, uuid.ToString());
 				return response;
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine(rawBody);
 				String operation = String.Format("AgentModule.AddAgent({0})", (profile == null) ? "No Model Data" : profile.EmailAddress);
-				return CommonModule.HandleException(e, operation, this.Request);
+				return CommonModule.HandleException(e, operation, "NG", this.Request);
 			}	
 			
 		}
@@ -202,7 +161,7 @@ namespace OHWebService.Modules
 
 				if (res == null)
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, String.Format("Agent with Id = {0} does not exist", id));
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
 				}
 				AgentModel ci = new AgentModel();
 				ci.AgentId = id;
@@ -211,7 +170,43 @@ namespace OHWebService.Modules
 			}
 			catch (Exception e)
 			{
-				return CommonModule.HandleException(e, String.Format("\nAgentModule.Delete({0})", id), this.Request);
+				return CommonModule.HandleException(e, String.Format("\nAgentModule.Delete({0})", id), "NG", this.Request);
+			}
+		}
+		
+		//PUT /agents/token
+		// used to update ConfirmFlg when user confirms email 
+		Nancy.Response UpdateAgentByToken()
+		{
+			// debug code only
+			// capture actual string posted in case the bind fails (as it will if the JSON is bad)
+			// need to do it now as the bind operation will remove the data
+			//String rawBody = this.GetBodyRaw(); 
+			String rawBody = CommonModule.GetBodyRaw(this.Request);
+			
+			AgentModelToken agentauthkey = null;
+			try
+			{
+				// bind the request body to the object
+				agentauthkey= this.Bind<AgentModelToken>();
+
+				AgentContext ctx = new AgentContext();
+
+				AgentModel agent = ctx.GetByToken(agentauthkey.token);
+				
+				if (agent == null)
+				{
+					return 404;
+				}
+				// if agent is found by authkey, update it
+				agent.ConfirmFlg = "1"; //set flag to 1
+				ctx.update(agent);
+				return 204; // no content response
+			}
+			catch (Exception e)
+			{
+				String operation = String.Format("AgentModule.UpdateAgentByToken({0})", (agentauthkey == null) ? "No Model Data" : agentauthkey.token);
+				return CommonModule.HandleException(e, operation,"NG",this.Request);
 			}
 		}
 		

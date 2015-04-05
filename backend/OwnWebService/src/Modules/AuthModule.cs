@@ -13,6 +13,8 @@ using Nancy;
 using Nancy.ModelBinding;
 using JWT;
 using OHWebService.Authentication;
+using OHWebService.Models;
+
 namespace OHWebService.Modules
 {
 	/// <summary>
@@ -49,10 +51,19 @@ namespace OHWebService.Modules
             }
         }
         
-        private bool IsValidUser(string email, string pass) 
+        private bool IsValidUser(string email, string pswd) 
 		{
             //check expiry
             //https://github.com/jchannon/Owin.StatelessAuth/blob/master/src/Owin.StatelessAuthExample/MySecureTokenValidator.cs
+            // create a connection to the PetaPoco orm and try to fetch and object with the given Id
+			AgentContext ctx = new AgentContext();
+			AgentModel res = ctx.GetByEmailAddAndPwd(email, pswd);
+			// a null return means no object found
+			if (res == null) 
+			{
+				return false;
+			}
+				
 			return true;
 		}
     }
