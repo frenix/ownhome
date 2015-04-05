@@ -20,7 +20,7 @@ namespace OHWebService.Authentication
 		{
 		}
 		
-		public static int Send()
+		public static int Send(string fullname, string email, string uuid)
 		{
 			try
             {
@@ -29,20 +29,47 @@ namespace OHWebService.Authentication
                                
                 mail.From = new MailAddress("proprtyfindr@gmail.com");
                 //mail.To.Add("efren.duranjr@gmail.com");
-                mail.To.Add("proprtyfindr@gmail.com");
-                mail.Subject = "Password Recovery ";
+                //mail.To.Add("proprtyfindr@gmail.com");
+                mail.To.Add(email);
+                
+                mail.Subject = "[Ownhome.com] Email Confirmation ";
                 mail.Body += " <html>";
                 mail.Body += "<body>";
                 mail.Body += "<table>";
+                
+				//http://localhost:8000/app/#/signup-success/authenticationkeyhere
 
+	
+//                mail.Body += "<tr>";
+//                mail.Body += "<td> <h1><img src=" + D:\ownhome\backend\OwnWebService\src\Images\logo-text.png + "></h1></td>";
+//                mail.Body += "</tr>";
+                
+				mail.Body += "<tr>";
+                mail.Body += "<td>Hi " +  fullname  + ",</td>";
+                mail.Body += "</tr>";
+				
+                mail.Body += "<tr><td></td></tr>";
+                 
                 mail.Body += "<tr>";
-                mail.Body += "<td>User Name : </td><td> HAi </td>";
+                mail.Body += "<td>You just signed up for Ownhome.com. Please follow this link to confirm that this is your e-mail address. </td>";
                 mail.Body += "</tr>";
 
                 mail.Body += "<tr>";
-                mail.Body += "<td>Password : </td><td>aaaaaaaaaa</td>";
+                mail.Body += "<td>http://localhost:8000/app/#/signup-success/" + uuid + " </td>";
                 mail.Body += "</tr>";
-
+				
+                mail.Body += "<tr><td></td></tr>";
+                
+                mail.Body += "<tr>";
+                mail.Body += "<td>Thanks, </td>";
+                mail.Body += "</tr>";
+                
+                mail.Body += "<tr><td></td></tr>";
+                
+                mail.Body += "<tr>";
+                mail.Body += "<td>The Ownhome Team </td>";
+                mail.Body += "</tr>";
+                
                 mail.Body += "</table>";
                 mail.Body += "</body>";
                 mail.Body += "</html>";
