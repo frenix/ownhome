@@ -63,7 +63,7 @@ namespace OHWebService.Modules
 			}
 			catch (Exception e)
 			{
-				return CommonModule.HandleException(e, String.Format("PropertyModule.GetAll()"), this.Request);
+				return CommonModule.HandleException(e, String.Format("PropertyModule.GetAll()"), "NG", this.Request);
 			}
 		}
 		
@@ -84,7 +84,7 @@ namespace OHWebService.Modules
 				// check exists. Return 409 if it does
 				if (listing.ListingId > 0)
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, String.Format("Listing information exists -> {0}", listing.ListingId));
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, "NG", String.Format("Listing information exists -> {0}", listing.ListingId));
 				}
 
 				// Connect to the database
@@ -104,7 +104,7 @@ namespace OHWebService.Modules
 			{
 				Console.WriteLine(rawBody);
 				String operation = String.Format("PropertyModule.AddListing({0})", (listing == null) ? "No Model Data" : listing.Title);
-				return CommonModule.HandleException(e, operation, this.Request);
+				return CommonModule.HandleException(e, operation, "NG", this.Request);
 			}	
 		}
 		
@@ -133,7 +133,7 @@ namespace OHWebService.Modules
 			catch (Exception e)
 			{
 				String operation = String.Format("PropertyModule.UpdateListing({0})", (listing == null) ? "No Model Data" : listing.Title);
-				return CommonModule.HandleException(e, operation, this.Request);
+				return CommonModule.HandleException(e, operation, "NG", this.Request);
 			}
 		}
 		
@@ -147,7 +147,7 @@ namespace OHWebService.Modules
 
 				if (res == null)
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, String.Format("Agent with Id = {0} does not exist", id));
+					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
 				}
 				PropertyModel ci = new PropertyModel();
 				ci.ListingId = id;
@@ -156,7 +156,7 @@ namespace OHWebService.Modules
 			}
 			catch (Exception e)
 			{
-				return CommonModule.HandleException(e, String.Format("\nPropertyModule.Delete({0})", id), this.Request);
+				return CommonModule.HandleException(e, String.Format("\nPropertyModule.Delete({0})", id), "NG", this.Request);
 			}
 		}
 		
