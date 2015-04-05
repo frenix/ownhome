@@ -33,16 +33,25 @@ namespace OHWebService.Modules
 			return CommonModule.GetDatabase().Query<AgentModel>(sql).ToList();
 		}
 		
-		public AgentModel GetById(int  id)
+        //maybe not use
+        public AgentModel GetById(int id)
 		{
-		    String sql = "select * from property_agent where AgentId =" + id.ToString();
+        	String sql = "select * from property_agent where AgentId =" + id.ToString();
 			return CommonModule.GetDatabase().FirstOrDefault<AgentModel>(sql);
 		}
         
-		public AgentModel GetByEmailAdd(string  emailadd)
+		public AgentModel GetByToken(string token)
 		{
-		    String sql = "select * from property_agent where EmailAddress =" + emailadd;
-			return CommonModule.GetDatabase().FirstOrDefault<AgentModel>(sql);
+		    String sql = "select * from property_agent where AuthKey = @0";
+			return CommonModule.GetDatabase().FirstOrDefault<AgentModel>(sql, token);
+		}
+        
+		public AgentModel GetByEmailAddAndPwd(string  emailadd, string pswd)
+		{
+		    //String sql = "select * from property_agent where EmailAddress ='" + emailadd + "' and Password='" + pswd +"'";
+		    String sql = "select * from property_agent where EmailAddress = @0 and Password=@1";
+		    
+		    return CommonModule.GetDatabase().FirstOrDefault<AgentModel>(sql,emailadd,pswd);
 		}
 		
 		public void Add(AgentModel agent)
