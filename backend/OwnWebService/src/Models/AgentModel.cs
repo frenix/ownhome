@@ -30,6 +30,14 @@ namespace OHWebService.Models
 		public String Password { get; set; }
 		[PetaPoco.Column("AuthKey")]
 		public String AuthKey { get; set; }
+		[PetaPoco.Column("ConfirmFlg")]
+		public String ConfirmFlg { get; set; }
+    }
+
+
+    public partial class AgentModelToken
+    {
+		public String token { get; set; }
     }
 
 }
