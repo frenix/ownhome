@@ -84,7 +84,7 @@ namespace OHWebService.Modules
 				// check exists. Return 409 if it does
 				if (listing.ListingId > 0)
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, "NG", String.Format("Listing information exists -> {0}", listing.ListingId));
+					return MsgBuilder.MsgResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, "NG", String.Format("Listing information exists -> {0}", listing.ListingId));
 				}
 
 				// Connect to the database
@@ -147,7 +147,7 @@ namespace OHWebService.Modules
 
 				if (res == null)
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
+					return MsgBuilder.MsgResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
 				}
 				PropertyModel ci = new PropertyModel();
 				ci.ListingId = id;

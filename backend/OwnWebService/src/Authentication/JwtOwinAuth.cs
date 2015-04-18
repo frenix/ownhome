@@ -26,7 +26,9 @@ namespace OHWebService.Authentication
         private readonly HashSet<string> exceptions = new HashSet<string>{ 
             "/",
             "/login",
-            "/login/"
+            "/login/",
+            "/agents",
+            "/agents/"
         };
 
         public JwtOwinAuth (AppFunc next)

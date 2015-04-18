@@ -82,7 +82,7 @@ namespace OHWebService.Authentication
 
                 SmtpServer.Port = 587;
                 SmtpServer.Credentials = new      
-                System.Net.NetworkCredential("proprtyfindr@gmail.com", "01tryst02");
+                System.Net.NetworkCredential("proprtyfindr@gmail.com", "395Excel04");
                 SmtpServer.EnableSsl = true;
 
                 SmtpServer.Send(mail);

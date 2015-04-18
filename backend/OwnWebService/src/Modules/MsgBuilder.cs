@@ -15,26 +15,26 @@ namespace OHWebService.Modules
 	/// <summary>
 	/// Description of ErrorBuilder.
 	/// </summary>
-	public class ErrorBuilder
+	public class MsgBuilder
 	{
-		public static Nancy.Response ErrorResponse(string url, string verb, HttpStatusCode code, string status, string errorMessage)
+		public static Nancy.Response MsgResponse(string url, string verb, HttpStatusCode code, string status, string infoMessage)
 		{
-			ErrorBody e = new ErrorBody
+			MsgBody e = new MsgBody
 			{
 				Url = url, 
 				Operation = verb,
 				Status = status,
-				Message = errorMessage
+				Message = infoMessage
 			};
 			// Build and return an object that the Nancy server knows about.
-			Nancy.Response response = new Nancy.Responses.JsonResponse<ErrorBody>(e, new DefaultJsonSerializer());
+			Nancy.Response response = new Nancy.Responses.JsonResponse<MsgBody>(e, new DefaultJsonSerializer());
 			response.StatusCode = code;
 			return response;
 		}
 
 	}
 		// useful info to return in an error
-    public class ErrorBody
+    public class MsgBody
     {
         public string Url {get; set; }
         public string Operation { get; set; }

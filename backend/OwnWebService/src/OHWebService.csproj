@@ -117,7 +117,7 @@
     <Compile Include="Modules\AgentModule.cs" />
     <Compile Include="Modules\AuthModule.cs" />
     <Compile Include="Modules\CommonModule.cs" />
-    <Compile Include="Modules\ErrorBuilder.cs" />
+    <Compile Include="Modules\MsgBuilder.cs" />
     <Compile Include="Modules\HomeModule.cs" />
     <Compile Include="Modules\PetaPoco.cs" />
     <Compile Include="Modules\PropertyContext.cs" />

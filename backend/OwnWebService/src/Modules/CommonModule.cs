@@ -35,7 +35,7 @@ namespace OHWebService.Modules
 				Console.WriteLine("{0}\n--------------------", e.InnerException.Message);
 			// but don't be tempted to return detail to the caller as it is a breach of security.
 			//return ErrorBuilder.ErrorResponse(req.Url.ToString(), "GET", HttpStatusCode.InternalServerError, "Operational difficulties");
-			return ErrorBuilder.ErrorResponse(req.Url.ToString(), req.Method, HttpStatusCode.InternalServerError, status, "Operational difficulties");
+			return MsgBuilder.MsgResponse(req.Url.ToString(), req.Method, HttpStatusCode.InternalServerError, status, "Operational difficulties");
 		}
 		
 		// Get Raw Data (JSON) from Nancy.Request

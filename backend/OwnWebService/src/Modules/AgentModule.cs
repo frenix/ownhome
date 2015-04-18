@@ -63,7 +63,7 @@ namespace OHWebService.Modules
 				if (res == null)   // a null return means no object found
 				{
 					// return a reponse conforming to REST conventions: a 404 error
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "GET", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
+					return MsgBuilder.MsgResponse(this.Request.Url.ToString(), "GET", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
 				}
 				else
 				{
@@ -118,7 +118,7 @@ namespace OHWebService.Modules
 				// check exists. Return 409 if it does
 				if ((profile.EmailAddress.Length == 0) && (profile.Password.Length == 0))
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, "NG", String.Format("Please update your email address-> {0}", profile.EmailAddress));
+					return MsgBuilder.MsgResponse(this.Request.Url.ToString(), "POST", HttpStatusCode.NotAcceptable, "NG", String.Format("Please update your email address-> {0}", profile.EmailAddress));
 				}
 				
 				//update AuthKey with GUID
@@ -161,12 +161,13 @@ namespace OHWebService.Modules
 
 				if (res == null)
 				{
-					return ErrorBuilder.ErrorResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
+					return MsgBuilder.MsgResponse(this.Request.Url.ToString(), "DELETE", HttpStatusCode.NotFound, "NG", String.Format("Agent with Id = {0} does not exist", id));
 				}
 				AgentModel ci = new AgentModel();
 				ci.AgentId = id;
 				ctx.delete(ci);
-				return 204;
+				//return 204;
+				return MsgBuilder.MsgResponse(this.Request.Url.ToString(),"DELETE", HttpStatusCode.NoContent, "OK", String.Format("{0} deleted successfully!", res.EmailAddress));
 			}
 			catch (Exception e)
 			{
