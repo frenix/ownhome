@@ -36,15 +36,7 @@ namespace OHWebService.Authentication
                 mail.Body += " <html>";
                 mail.Body += "<body>";
                 mail.Body += "<table>";
-                
-				//http://localhost:8000/app/#/signup-success/authenticationkeyhere
-
-	
-//                mail.Body += "<tr>";
-//                mail.Body += "<td> <h1><img src=" + D:\ownhome\backend\OwnWebService\src\Images\logo-text.png + "></h1></td>";
-//                mail.Body += "</tr>";
-                
-				mail.Body += "<tr>";
+          	mail.Body += "<tr>";
                 mail.Body += "<td>Hi " +  fullname  + ",</td>";
                 mail.Body += "</tr>";
 				
@@ -76,9 +68,6 @@ namespace OHWebService.Authentication
 
                 mail.IsBodyHtml = true;
 
-                ////System.Net.Mail.Attachment attachment;
-                ////attachment = new System.Net.Mail.Attachment(@"D:\bkup\krishna.mdb");
-                ////mail.Attachments.Add(attachment);
 
                 SmtpServer.Port = 587;
                 SmtpServer.Credentials = new      
